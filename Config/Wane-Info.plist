@@ -27,7 +27,7 @@
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
 	<key>SUFeedURL</key>
-	<string>https://wane.app/appcast.xml</string>
+	<string>https://github.com/08820048/Wane/releases/latest/download/appcast.xml</string>
 	<key>SUPublicEDKey</key>
 	<string>WPgzx2GIqY8DUPWOe6OuHrr1BecMrHaoUknSdM245dw=</string>
 </dict>
