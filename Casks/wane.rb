@@ -8,7 +8,7 @@ cask "wane" do
   desc "Ambient progress bars for the current day, week, month, and year"
   homepage "https://github.com/08820048/Wane"
 
-  depends_on macos: ">= :ventura"
+  depends_on macos: :ventura
 
   app "Wane.app"
 end
