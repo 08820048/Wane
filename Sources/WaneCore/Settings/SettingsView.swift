@@ -1,47 +1,49 @@
+import AppKit
 import SwiftUI
 
 public struct SettingsView: View {
+    @AppStorage(PreferenceKey.appLanguage) private var appLanguage = AppLanguage.automatic.rawValue
+
     public init() {}
 
     public var body: some View {
         TabView {
             GeneralSettingsView()
-                .tabItem { Label("General", systemImage: "gearshape") }
+                .tabItem { Label(L10n.text("settings.tab.general"), systemImage: "gearshape") }
 
             ProgressBarsSettingsView()
-                .tabItem { Label("Progress Bars", systemImage: "chart.bar") }
+                .tabItem { Label(L10n.text("settings.tab.progressBars"), systemImage: "chart.bar") }
 
             AppearanceSettingsView()
-                .tabItem { Label("Appearance", systemImage: "paintpalette") }
+                .tabItem { Label(L10n.text("settings.tab.appearance"), systemImage: "paintpalette") }
         }
         .padding(20)
         .frame(width: 520, height: 390)
-    }
-}
-
-extension Color {
-    init(hexString: String) {
-        self.init(nsColor: NSColor(hexString: hexString) ?? .white)
-    }
-
-    var hexString: String {
-        NSColor(self).hexString
+        .id(appLanguage)
     }
 }
 
 private struct GeneralSettingsView: View {
     @AppStorage(PreferenceKey.launchAtLogin) private var launchAtLogin = true
     @AppStorage(PreferenceKey.showMenuBarIcon) private var showMenuBarIcon = true
+    @AppStorage(PreferenceKey.appLanguage) private var appLanguage = AppLanguage.automatic.rawValue
 
     var body: some View {
         Form {
-            Toggle("Launch at login", isOn: $launchAtLogin)
+            Toggle(L10n.text("general.launchAtLogin"), isOn: $launchAtLogin)
                 .onChange(of: launchAtLogin) { newValue in
                     LaunchAtLoginController.setEnabled(newValue)
                 }
-            Toggle("Show menubar icon", isOn: $showMenuBarIcon)
+            Toggle(L10n.text("general.showMenuBarIcon"), isOn: $showMenuBarIcon)
 
-            Text("Wane keeps running in the background when the settings window closes.")
+            Picker(L10n.text("general.language"), selection: $appLanguage) {
+                ForEach(AppLanguage.allCases) { language in
+                    Text(language.title).tag(language.rawValue)
+                }
+            }
+            .pickerStyle(.menu)
+
+            Text(L10n.text("general.backgroundNote"))
                 .font(.footnote)
                 .foregroundStyle(.secondary)
                 .padding(.top, 8)
@@ -62,17 +64,17 @@ private struct ProgressBarsSettingsView: View {
 
     var body: some View {
         Form {
-            Toggle("Today", isOn: $todayEnabled)
+            Toggle(TimeDimension.today.title, isOn: $todayEnabled)
             HStack {
-                DatePicker("Work start", selection: timeBinding(for: $workStart), displayedComponents: .hourAndMinute)
-                DatePicker("Work end", selection: timeBinding(for: $workEnd), displayedComponents: .hourAndMinute)
+                DatePicker(L10n.text("progress.workStart"), selection: timeBinding(for: $workStart), displayedComponents: .hourAndMinute)
+                DatePicker(L10n.text("progress.workEnd"), selection: timeBinding(for: $workEnd), displayedComponents: .hourAndMinute)
             }
 
-            Toggle("This week", isOn: $weekEnabled)
-            Toggle("This month", isOn: $monthEnabled)
-            Toggle("This year", isOn: $yearEnabled)
+            Toggle(TimeDimension.week.title, isOn: $weekEnabled)
+            Toggle(TimeDimension.month.title, isOn: $monthEnabled)
+            Toggle(TimeDimension.year.title, isOn: $yearEnabled)
 
-            Picker("Bar position", selection: $barPosition) {
+            Picker(L10n.text("progress.barPosition"), selection: $barPosition) {
                 ForEach(BarPosition.allCases) { position in
                     Text(position.title).tag(position.rawValue)
                 }
@@ -80,8 +82,9 @@ private struct ProgressBarsSettingsView: View {
             .pickerStyle(.segmented)
 
             HStack {
+                Text(L10n.text("progress.barThickness"))
                 Slider(value: $barThickness, in: 1...4, step: 1)
-                Text("\(Int(barThickness)) px")
+                Text(L10n.text("progress.thicknessValue", Int(barThickness)))
                     .font(.system(.body, design: .monospaced))
                     .frame(width: 44, alignment: .trailing)
             }
@@ -115,12 +118,13 @@ private struct AppearanceSettingsView: View {
 
     var body: some View {
         Form {
-            ColorPicker("Today color", selection: colorBinding(for: $todayColor))
-            ColorPicker("This week color", selection: colorBinding(for: $weekColor))
-            ColorPicker("This month color", selection: colorBinding(for: $monthColor))
-            ColorPicker("This year color", selection: colorBinding(for: $yearColor))
+            ColorSelectionRow(title: L10n.text("appearance.todayColor"), colorHex: $todayColor)
+            ColorSelectionRow(title: L10n.text("appearance.weekColor"), colorHex: $weekColor)
+            ColorSelectionRow(title: L10n.text("appearance.monthColor"), colorHex: $monthColor)
+            ColorSelectionRow(title: L10n.text("appearance.yearColor"), colorHex: $yearColor)
 
             HStack {
+                Text(L10n.text("appearance.barOpacity"))
                 Slider(value: $barOpacity, in: 0.2...1.0, step: 0.05)
                 Text("\(Int((barOpacity * 100).rounded()))%")
                     .font(.system(.body, design: .monospaced))
@@ -129,11 +133,61 @@ private struct AppearanceSettingsView: View {
         }
         .formStyle(.grouped)
     }
+}
 
-    private func colorBinding(for value: Binding<String>) -> Binding<Color> {
-        Binding<Color>(
-            get: { Color(hexString: value.wrappedValue) },
-            set: { value.wrappedValue = $0.hexString }
-        )
+private struct ColorSelectionRow: View {
+    let title: String
+    @Binding var colorHex: String
+
+    var body: some View {
+        HStack {
+            Text(title)
+            Spacer()
+            ColorWell(colorHex: $colorHex)
+                .frame(width: 44, height: 24)
+                .help(L10n.text("appearance.chooseColorHelp"))
+        }
+    }
+}
+
+private struct ColorWell: NSViewRepresentable {
+    @Binding var colorHex: String
+
+    func makeNSView(context: Context) -> NSColorWell {
+        let colorWell = NSColorWell(frame: NSRect(x: 0, y: 0, width: 44, height: 24))
+        colorWell.isBordered = true
+        colorWell.target = context.coordinator
+        colorWell.action = #selector(Coordinator.colorDidChange(_:))
+        colorWell.color = NSColor(hexString: colorHex) ?? .white
+        return colorWell
+    }
+
+    func updateNSView(_ colorWell: NSColorWell, context: Context) {
+        context.coordinator.update(colorHex: $colorHex)
+
+        let nextColor = NSColor(hexString: colorHex) ?? .white
+        if colorWell.color.hexString != nextColor.hexString {
+            colorWell.color = nextColor
+        }
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(colorHex: $colorHex)
+    }
+
+    final class Coordinator: NSObject {
+        private var colorHex: Binding<String>
+
+        init(colorHex: Binding<String>) {
+            self.colorHex = colorHex
+        }
+
+        func update(colorHex: Binding<String>) {
+            self.colorHex = colorHex
+        }
+
+        @objc func colorDidChange(_ sender: NSColorWell) {
+            colorHex.wrappedValue = sender.color.hexString
+        }
     }
 }

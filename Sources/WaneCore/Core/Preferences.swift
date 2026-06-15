@@ -5,6 +5,7 @@ public enum PreferenceKey {
     static let launchAtLogin = "general.launchAtLogin"
     static let showMenuBarIcon = "general.showMenuBarIcon"
     static let hasShownOnboarding = "general.hasShownOnboarding"
+    public static let appLanguage = "general.appLanguage"
 
     static let todayEnabled = "bars.today.enabled"
     static let weekEnabled = "bars.week.enabled"
@@ -32,10 +33,10 @@ enum BarPosition: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .bottom: "Bottom"
-        case .top: "Top"
-        case .left: "Left"
-        case .right: "Right"
+        case .bottom: L10n.text("position.bottom")
+        case .top: L10n.text("position.top")
+        case .left: L10n.text("position.left")
+        case .right: L10n.text("position.right")
         }
     }
 
@@ -54,10 +55,10 @@ enum TimeDimension: String, CaseIterable, Identifiable {
 
     var title: String {
         switch self {
-        case .today: "Today"
-        case .week: "This week"
-        case .month: "This month"
-        case .year: "This year"
+        case .today: L10n.text("dimension.today")
+        case .week: L10n.text("dimension.week")
+        case .month: L10n.text("dimension.month")
+        case .year: L10n.text("dimension.year")
         }
     }
 
@@ -80,11 +81,36 @@ enum TimeDimension: String, CaseIterable, Identifiable {
     }
 }
 
+public enum AppLanguage: String, CaseIterable, Identifiable {
+    case automatic
+    case english
+    case simplifiedChinese
+
+    public var id: String { rawValue }
+
+    var localizationIdentifier: String? {
+        switch self {
+        case .automatic: nil
+        case .english: "en"
+        case .simplifiedChinese: "zh-Hans"
+        }
+    }
+
+    var title: String {
+        switch self {
+        case .automatic: L10n.text("language.automatic")
+        case .english: L10n.text("language.english")
+        case .simplifiedChinese: L10n.text("language.simplifiedChinese")
+        }
+    }
+}
+
 public enum PreferenceStore {
     public static func registerDefaults() {
         UserDefaults.standard.register(defaults: [
             PreferenceKey.launchAtLogin: true,
             PreferenceKey.showMenuBarIcon: true,
+            PreferenceKey.appLanguage: AppLanguage.automatic.rawValue,
             PreferenceKey.todayEnabled: true,
             PreferenceKey.weekEnabled: true,
             PreferenceKey.monthEnabled: true,

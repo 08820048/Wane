@@ -2,6 +2,11 @@ import XCTest
 @testable import WaneCore
 
 final class TimeProgressTests: XCTestCase {
+    override func setUp() {
+        super.setUp()
+        UserDefaults.standard.set(AppLanguage.english.rawValue, forKey: PreferenceKey.appLanguage)
+    }
+
     func testWorkdayProgressClampsBeforeStartAndAfterEnd() {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = TimeZone(secondsFromGMT: 0)!

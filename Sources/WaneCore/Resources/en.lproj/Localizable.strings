@@ -1,0 +1,46 @@
+"app.preferences" = "Preferences...";
+
+"onboarding.title" = "Wane adds subtle progress bars to your screen edge.";
+"onboarding.message" = "You can configure them anytime from the menubar icon.";
+"onboarding.getStarted" = "Get Started";
+
+"settings.tab.general" = "General";
+"settings.tab.progressBars" = "Progress Bars";
+"settings.tab.appearance" = "Appearance";
+
+"general.launchAtLogin" = "Launch at login";
+"general.showMenuBarIcon" = "Show menubar icon";
+"general.language" = "Language";
+"general.backgroundNote" = "Wane keeps running in the background when the settings window closes.";
+
+"language.automatic" = "Automatic";
+"language.english" = "English";
+"language.simplifiedChinese" = "Simplified Chinese";
+
+"dimension.today" = "Today";
+"dimension.week" = "This week";
+"dimension.month" = "This month";
+"dimension.year" = "This year";
+
+"progress.workStart" = "Work start";
+"progress.workEnd" = "Work end";
+"progress.barPosition" = "Bar position";
+"progress.barThickness" = "Bar thickness";
+"progress.thicknessValue" = "%d px";
+
+"appearance.todayColor" = "Today color";
+"appearance.weekColor" = "This week color";
+"appearance.monthColor" = "This month color";
+"appearance.yearColor" = "This year color";
+"appearance.barOpacity" = "Bar opacity";
+"appearance.chooseColorHelp" = "Click to choose a color";
+
+"position.bottom" = "Bottom";
+"position.top" = "Top";
+"position.left" = "Left";
+"position.right" = "Right";
+
+"popover.quit" = "Quit";
+
+"time.workdayDetail" = "%@ - %d%% of workday";
+"time.dayOf" = "Day %d of %d";

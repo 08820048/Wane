@@ -4,6 +4,7 @@ import WaneCore
 @main
 struct WaneApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+    @AppStorage(PreferenceKey.appLanguage) private var appLanguage = AppLanguage.automatic.rawValue
 
     init() {
         PreferenceStore.registerDefaults()
@@ -12,10 +13,11 @@ struct WaneApp: App {
     var body: some Scene {
         Settings {
             SettingsView()
+                .id(appLanguage)
         }
         .commands {
             CommandGroup(replacing: .appSettings) {
-                Button("Preferences...") {
+                Button(L10n.text("app.preferences")) {
                     NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
                     NSApp.activate(ignoringOtherApps: true)
                 }

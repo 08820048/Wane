@@ -1,0 +1,46 @@
+"app.preferences" = "偏好设置...";
+
+"onboarding.title" = "Wane 会在屏幕边缘添加轻量的时间进度条。";
+"onboarding.message" = "你可以随时从菜单栏图标中进行配置。";
+"onboarding.getStarted" = "开始使用";
+
+"settings.tab.general" = "通用";
+"settings.tab.progressBars" = "进度条";
+"settings.tab.appearance" = "外观";
+
+"general.launchAtLogin" = "开机自动启动";
+"general.showMenuBarIcon" = "显示菜单栏图标";
+"general.language" = "语言";
+"general.backgroundNote" = "关闭设置窗口后，Wane 仍会在后台继续运行。";
+
+"language.automatic" = "跟随系统";
+"language.english" = "English";
+"language.simplifiedChinese" = "简体中文";
+
+"dimension.today" = "今天";
+"dimension.week" = "本周";
+"dimension.month" = "本月";
+"dimension.year" = "今年";
+
+"progress.workStart" = "工作开始";
+"progress.workEnd" = "工作结束";
+"progress.barPosition" = "进度条位置";
+"progress.barThickness" = "进度条粗细";
+"progress.thicknessValue" = "%d 像素";
+
+"appearance.todayColor" = "今天颜色";
+"appearance.weekColor" = "本周颜色";
+"appearance.monthColor" = "本月颜色";
+"appearance.yearColor" = "今年颜色";
+"appearance.barOpacity" = "进度条透明度";
+"appearance.chooseColorHelp" = "点击选择颜色";
+
+"position.bottom" = "底部";
+"position.top" = "顶部";
+"position.left" = "左侧";
+"position.right" = "右侧";
+
+"popover.quit" = "退出";
+
+"time.workdayDetail" = "%@ - 工作日已过 %d%%";
+"time.dayOf" = "第 %d 天，共 %d 天";

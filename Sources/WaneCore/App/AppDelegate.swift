@@ -88,6 +88,7 @@ public final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelega
         )
         self.popover = popover
         popover.show(relativeTo: sender.bounds, of: sender, preferredEdge: .minY)
+        popover.contentViewController?.view.window?.makeFirstResponder(nil)
     }
 
     private func showFirstLaunchAlertIfNeeded() {
@@ -96,9 +97,9 @@ public final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelega
         }
 
         let alert = NSAlert()
-        alert.messageText = "Wane adds subtle progress bars to your screen edge."
-        alert.informativeText = "You can configure them anytime from the menubar icon."
-        alert.addButton(withTitle: "Get Started")
+        alert.messageText = L10n.text("onboarding.title")
+        alert.informativeText = L10n.text("onboarding.message")
+        alert.addButton(withTitle: L10n.text("onboarding.getStarted"))
         alert.runModal()
 
         UserDefaults.standard.set(true, forKey: PreferenceKey.hasShownOnboarding)

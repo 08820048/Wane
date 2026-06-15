@@ -85,7 +85,11 @@ enum TimeProgress {
         return ProgressInfo(
             dimension: .today,
             progress: progress,
-            detail: "\(formatter.string(from: now)) - \(Int((progress * 100).rounded()))% of workday"
+            detail: L10n.text(
+                "time.workdayDetail",
+                formatter.string(from: now),
+                Int((progress * 100).rounded())
+            )
         )
     }
 
@@ -106,19 +110,19 @@ enum TimeProgress {
     private static func weekDetail(now: Date, calendar: Calendar) -> String {
         let weekday = calendar.component(.weekday, from: now)
         let mondayBasedDay = ((weekday + 5) % 7) + 1
-        return "Day \(mondayBasedDay) of 7"
+        return L10n.text("time.dayOf", mondayBasedDay, 7)
     }
 
     private static func monthDetail(now: Date, calendar: Calendar) -> String {
         let day = calendar.component(.day, from: now)
         let days = calendar.range(of: .day, in: .month, for: now)?.count ?? 30
-        return "Day \(day) of \(days)"
+        return L10n.text("time.dayOf", day, days)
     }
 
     private static func yearDetail(now: Date, calendar: Calendar) -> String {
         let day = calendar.ordinality(of: .day, in: .year, for: now) ?? 1
         let days = calendar.range(of: .day, in: .year, for: now)?.count ?? 365
-        return "Day \(day) of \(days)"
+        return L10n.text("time.dayOf", day, days)
     }
 
     private static func clamp(_ value: Double) -> Double {

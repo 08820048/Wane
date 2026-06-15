@@ -4,6 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "Wane",
+    defaultLocalization: "en",
     platforms: [
         .macOS(.v13)
     ],
@@ -18,7 +19,10 @@ let package = Package(
         ),
         .target(
             name: "WaneCore",
-            path: "Sources/WaneCore"
+            path: "Sources/WaneCore",
+            resources: [
+                .process("Resources")
+            ]
         ),
         .testTarget(
             name: "WaneTests",
