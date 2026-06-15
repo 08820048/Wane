@@ -25,7 +25,7 @@ swift test
 Build a direct-download DMG:
 
 ```sh
-./scripts/build_release.sh 0.000
+./scripts/build_release.sh 0.0001
 ```
 
 See `docs/Release.md` for signing, notarization, and Sparkle appcast steps.

@@ -2,9 +2,10 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-VERSION="${1:-0.000}"
+VERSION="${1:-0.0001}"
 APP_NAME="Wane"
 APP_BUNDLE="$ROOT_DIR/dist/$APP_NAME.app"
+DMG_ROOT="$ROOT_DIR/dist/dmg-root"
 DMG_PATH="$ROOT_DIR/dist/$APP_NAME-$VERSION.dmg"
 DMG_LATEST_PATH="$ROOT_DIR/dist/$APP_NAME.dmg"
 INFO_PLIST="$APP_BUNDLE/Contents/Info.plist"
@@ -21,6 +22,7 @@ cd "$ROOT_DIR"
 
 rm -rf "$ROOT_DIR/dist"
 mkdir -p "$APP_BUNDLE/Contents/MacOS" "$APP_BUNDLE/Contents/Resources" "$APP_BUNDLE/Contents/Frameworks"
+mkdir -p "$DMG_ROOT"
 
 swift build -c release
 
@@ -50,9 +52,12 @@ fi
 codesign "${SIGN_OPTIONS[@]}" "$APP_BUNDLE"
 
 rm -f "$DMG_PATH" "$DMG_LATEST_PATH"
+cp -R "$APP_BUNDLE" "$DMG_ROOT/$APP_NAME.app"
+ln -s /Applications "$DMG_ROOT/Applications"
+
 hdiutil create \
   -volname "$APP_NAME" \
-  -srcfolder "$APP_BUNDLE" \
+  -srcfolder "$DMG_ROOT" \
   -ov \
   -format UDZO \
   "$DMG_PATH"
