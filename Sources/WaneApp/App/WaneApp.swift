@@ -23,6 +23,12 @@ struct WaneApp: App {
                 }
                 .keyboardShortcut(",", modifiers: .command)
             }
+
+            CommandGroup(after: .appInfo) {
+                Button(L10n.text("updates.check")) {
+                    SoftwareUpdateController.shared.checkForUpdates()
+                }
+            }
         }
     }
 }

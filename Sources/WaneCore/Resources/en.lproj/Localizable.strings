@@ -42,5 +42,10 @@
 
 "popover.quit" = "Quit";
 
+"updates.check" = "Check for Updates...";
+"updates.notConfiguredTitle" = "Software updates are not configured.";
+"updates.notConfiguredMessage" = "Add SUFeedURL and SUPublicEDKey to the app Info.plist after generating Sparkle signing keys and publishing an appcast.";
+"updates.notConfiguredOK" = "OK";
+
 "time.workdayDetail" = "%@ - %d%% of workday";
 "time.dayOf" = "Day %d of %d";

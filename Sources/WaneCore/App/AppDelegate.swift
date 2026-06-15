@@ -15,6 +15,7 @@ public final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelega
     public func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
         syncLaunchAtLoginPreference()
+        SoftwareUpdateController.shared.start()
 
         let manager = ScreenManager()
         manager.start()
@@ -82,6 +83,10 @@ public final class AppDelegate: NSObject, NSApplicationDelegate, NSPopoverDelega
                     self?.popover?.performClose(nil)
                     NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
                     NSApp.activate(ignoringOtherApps: true)
+                },
+                onCheckForUpdates: { [weak self] in
+                    self?.popover?.performClose(nil)
+                    SoftwareUpdateController.shared.checkForUpdates()
                 },
                 onQuit: { NSApp.terminate(nil) }
             )

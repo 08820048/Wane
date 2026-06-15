@@ -42,5 +42,10 @@
 
 "popover.quit" = "退出";
 
+"updates.check" = "检查更新...";
+"updates.notConfiguredTitle" = "软件更新尚未配置。";
+"updates.notConfiguredMessage" = "生成 Sparkle 签名密钥并发布 appcast 后，请在应用 Info.plist 中添加 SUFeedURL 和 SUPublicEDKey。";
+"updates.notConfiguredOK" = "好的";
+
 "time.workdayDetail" = "%@ - 工作日已过 %d%%";
 "time.dayOf" = "第 %d 天，共 %d 天";

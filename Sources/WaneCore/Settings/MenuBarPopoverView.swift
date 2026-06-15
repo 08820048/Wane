@@ -1,8 +1,10 @@
 import AppKit
+import Combine
 import SwiftUI
 
 struct MenuBarPopoverView: View {
     let onPreferences: () -> Void
+    let onCheckForUpdates: () -> Void
     let onQuit: () -> Void
 
     @AppStorage(PreferenceKey.appLanguage) private var appLanguage = AppLanguage.automatic.rawValue
@@ -25,6 +27,8 @@ struct MenuBarPopoverView: View {
 
             HStack {
                 FocuslessLinkButton(title: L10n.text("app.preferences"), action: onPreferences)
+                Spacer()
+                FocuslessLinkButton(title: L10n.text("updates.check"), action: onCheckForUpdates)
                 Spacer()
                 FocuslessLinkButton(title: L10n.text("popover.quit"), action: onQuit)
             }

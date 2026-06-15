@@ -11,6 +11,9 @@ let package = Package(
     products: [
         .executable(name: "Wane", targets: ["Wane"])
     ],
+    dependencies: [
+        .package(url: "https://github.com/sparkle-project/Sparkle", from: "2.9.3")
+    ],
     targets: [
         .executableTarget(
             name: "Wane",
@@ -19,6 +22,9 @@ let package = Package(
         ),
         .target(
             name: "WaneCore",
+            dependencies: [
+                .product(name: "Sparkle", package: "Sparkle")
+            ],
             path: "Sources/WaneCore",
             resources: [
                 .process("Resources")
