@@ -45,6 +45,10 @@ cp "$ROOT_DIR/Config/Wane-Info.plist" "$INFO_PLIST"
 cp "$ROOT_DIR/Sources/WaneCore/Resources/WaneIcon.icns" "$APP_BUNDLE/Contents/Resources/WaneIcon.icns"
 cp -R "$PRODUCTS_DIR/Sparkle.framework" "$APP_BUNDLE/Contents/Frameworks/Sparkle.framework"
 
+if ! otool -l "$APP_BUNDLE/Contents/MacOS/$APP_NAME" | grep -q "@executable_path/../Frameworks"; then
+  install_name_tool -add_rpath "@executable_path/../Frameworks" "$APP_BUNDLE/Contents/MacOS/$APP_NAME"
+fi
+
 if [[ -d "$PRODUCTS_DIR/Wane_WaneCore.bundle" ]]; then
   cp -R "$PRODUCTS_DIR/Wane_WaneCore.bundle" "$APP_BUNDLE/Contents/Resources/Wane_WaneCore.bundle"
 fi
